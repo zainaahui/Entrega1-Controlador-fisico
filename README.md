@@ -9,6 +9,7 @@ Este proyecto es un **videojuego del Lorax** que se juega en el computador, pero
   <img src="IMG_3788.jpeg" alt="Controlador final del Lorax: caja naranja con tapa café, botón arcade y palanca deslizable" width="620">
 </p>
 
+Video Explicativo:https://youtu.be/5sr6EDafLVo
 ---
 
 ## 🎮 ¿De qué se trata?
