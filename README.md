@@ -1,4 +1,4 @@
-[README.md](https://github.com/user-attachments/files/34325001/README.md)
+[README.md](https://github.com/user-attachments/files/34325295/README.md)
 # 🌳 El Lorax · Un controlador físico para un videojuego
 
 > *«Yo hablo por los árboles.»*
@@ -6,7 +6,7 @@
 Este proyecto es un **videojuego del Lorax** que se juega en el computador, pero no con teclado ni mouse: se juega con un **controlador hecho a mano**, una cajita café y naranja con la cara del Lorax, construida con un Arduino, un botón arcade y un potenciómetro deslizable.
 
 <p align="center">
-  <img src="imagenes/IMG_3788.jpeg" alt="Controlador final del Lorax: caja naranja con tapa café, botón arcade y palanca deslizable" width="620">
+  <img src="IMG_3788.jpeg" alt="Controlador final del Lorax: caja naranja con tapa café, botón arcade y palanca deslizable" width="620">
 </p>
 
 ---
@@ -80,7 +80,7 @@ El juego lee esas líneas, detecta si dice `PRESIONADO` y toma el número del fi
 Primero armé todo con cables sueltos para comprobar que funcionaba. Es el primer montaje: el potenciómetro deslizable y el botón conectados directamente al Arduino.
 
 <p align="center">
-  <img src="imagenes/IMG_3637.jpeg" alt="Primer montaje con cables sueltos entre el Arduino, el potenciómetro deslizable y el botón" width="420">
+  <img src="IMG_3637.jpeg" alt="Primer montaje con cables sueltos entre el Arduino, el potenciómetro deslizable y el botón" width="420">
 </p>
 
 Esquema de conexión (según el código):
@@ -95,7 +95,7 @@ Esquema de conexión (según el código):
 Para que no se soltara ningún cable, pasé el circuito a una **placa perforada** que va montada encima del Arduino. Soldé con **estaño** los cables del potenciómetro y del botón a la placa. Desde ahí salen los cables que van al deslizable y al botón de la caja.
 
 <p align="center">
-  <img src="imagenes/IMG_3638.jpeg" alt="Placa perforada soldada encima del Arduino, con el potenciómetro deslizable y el botón arcade conectados" width="620">
+  <img src="IMG_3638.jpeg" alt="Placa perforada soldada encima del Arduino, con el potenciómetro deslizable y el botón arcade conectados" width="620">
 </p>
 
 ### 4. ❌ Intento 1: la caja que no funcionó
@@ -103,11 +103,11 @@ Para que no se soltara ningún cable, pasé el circuito a una **placa perforada*
 Antes de la caja final hice una primera versión. La diseñé en **Rhino** y la armé con piezas blancas encajadas, con un monito azul pegado a un costado.
 
 <p align="center">
-  <img src="imagenes/intento1.png" alt="Captura del diseño de la primera caja en Rhino: cuerpo, tapa con ranura y agujero, y una pieza pequeña" width="520">
+  <img src="intento1.png" alt="Captura del diseño de la primera caja en Rhino: cuerpo, tapa con ranura y agujero, y una pieza pequeña" width="520">
 </p>
 
 <p align="center">
-  <img src="imagenes/intento1_2.jpeg" alt="Primera caja armada, blanca, con un monito azul pegado al costado" width="380">
+  <img src="intento1.2.jpeg" alt="Primera caja armada, blanca, con un monito azul pegado al costado" width="380">
 </p>
 
 **Por qué no funcionó:** las medidas no estaban bien.
@@ -126,7 +126,7 @@ La versión final es una caja de dos colores, **naranja** en el cuerpo y **café
 - El **cable USB** entra sin problema por el costado.
 
 <p align="center">
-  <img src="imagenes/IMG_3788.jpeg" alt="Controlador final del Lorax conectado al computador" width="620">
+  <img src="IMG_3788.jpeg" alt="Controlador final del Lorax conectado al computador" width="620">
 </p>
 
 ---
@@ -153,6 +153,10 @@ La versión final es una caja de dos colores, **naranja** en el cuerpo y **café
 ├── index.html                # El juego (se abre en el navegador)
 ├── probarsifunciona.ino      # Código del Arduino
 ├── cajita.3dm                # Modelo 3D de la caja (Rhino)
-├── imagenes/                 # Fotos y capturas del proceso
+├── IMG_3637.jpeg             # Primer montaje con cables sueltos
+├── IMG_3638.jpeg             # Placa soldada
+├── IMG_3788.jpeg             # Caja final
+├── intento1.png              # Intento 1: diseño en Rhino
+├── intento1.2.jpeg           # Intento 1: caja armada
 └── README.md
 ```
