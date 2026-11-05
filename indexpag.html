@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌳 El Lorax · Controlador Físico y Documentación</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        loraxOrange: '#f97316',
+                        loraxDarkOrange: '#c2410c',
+                        loraxBrown: '#78350f',
+                        loraxLightBrown: '#92400e',
+                        loraxGreen: '#15803d',
+                        loraxLightGreen: '#22c55e',
+                        loraxCream: '#fef3c7',
+                        loraxDark: '#1c1917',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #fafaf9;
+            color: #1c1917;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #fef3c7;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #f97316;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="bg-stone-50 text-stone-900 antialiased selection:bg-orange-500 selection:text-white">
+
+    <!-- Notificación flotante (reemplazo de alert) -->
+    <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-stone-900 text-white px-6 py-3 rounded-xl shadow-2xl flex items-center space-x-3 border border-orange-500/30">
+        <i id="toast-icon" class="fa-solid fa-circle-info text-orange-400 text-lg"></i>
+        <span id="toast-message" class="text-sm font-medium">Notificación</span>
+    </div>
+
+    <!-- Navegación Superior -->
+    <header class="sticky top-0 z-40 bg-stone-900/95 backdrop-blur-md border-b border-stone-800 text-white transition-all">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="#inicio" class="flex items-center space-x-3 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-orange-500 to-amber-600 flex items-center justify-center text-white shadow-lg shadow-orange-500/30 group-hover:scale-105 transition-transform">
+                    <i class="fa-solid fa-tree text-xl"></i>
+                </div>
+                <div>
+                    <span class="font-extrabold text-lg tracking-tight bg-gradient-to-r from-orange-400 to-amber-200 bg-clip-text text-transparent">El Lorax</span>
+                    <span class="block text-xs text-stone-400 font-medium">Controlador Físico & Juego</span>
+                </div>
+            </a>
+
+            <!-- Menú de escritorio -->
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-medium">
+                <a href="#inicio" class="text-stone-300 hover:text-orange-400 transition-colors">Inicio</a>
+                <a href="#que-es" class="text-stone-300 hover:text-orange-400 transition-colors">¿De qué se trata?</a>
+                <a href="#como-se-juega" class="text-stone-300 hover:text-orange-400 transition-colors">Cómo se juega</a>
+                <a href="#materiales" class="text-stone-300 hover:text-orange-400 transition-colors">Materiales</a>
+                <a href="#desarrollo" class="text-stone-300 hover:text-orange-400 transition-colors">Desarrollo Paso a Paso</a>
+                <a href="#jugar" class="bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white px-5 py-2.5 rounded-xl shadow-lg shadow-orange-500/20 font-semibold transition-all hover:scale-105 flex items-center space-x-2">
+                    <i class="fa-solid fa-gamepad"></i>
+                    <span>Jugar / Conectar</span>
+                </a>
+            </nav>
+
+            <!-- Botón hamburguesa móvil -->
+            <button id="menu-btn" class="md:hidden text-stone-300 hover:text-white focus:outline-none p-2 rounded-lg bg-stone-800">
+                <i class="fa-solid fa-bars text-xl"></i>
+            </button>
+        </div>
+
+        <!-- Menú Móvil Desplegable -->
+        <div id="mobile-menu" class="hidden md:hidden bg-stone-900 border-b border-stone-800 px-4 pt-2 pb-6 space-y-3">
+            <a href="#inicio" class="block px-3 py-2 rounded-lg text-stone-300 hover:bg-stone-800 hover:text-orange-400 font-medium">Inicio</a>
+            <a href="#que-es" class="block px-3 py-2 rounded-lg text-stone-300 hover:bg-stone-800 hover:text-orange-400 font-medium">¿De qué se trata?</a>
+            <a href="#como-se-juega" class="block px-3 py-2 rounded-lg text-stone-300 hover:bg-stone-800 hover:text-orange-400 font-medium">Cómo se juega</a>
+            <a href="#materiales" class="block px-3 py-2 rounded-lg text-stone-300 hover:bg-stone-800 hover:text-orange-400 font-medium">Materiales</a>
+            <a href="#desarrollo" class="block px-3 py-2 rounded-lg text-stone-300 hover:bg-stone-800 hover:text-orange-400 font-medium">Desarrollo Paso a Paso</a>
+            <a href="#jugar" class="block w-full text-center bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-xl font-semibold shadow-md">Jugar / Conectar</a>
+        </div>
+    </header>
+
+    <!-- Sección de Héroe (Hero) -->
+    <section id="inicio" class="relative overflow-hidden bg-gradient-to-b from-stone-900 via-stone-900 to-stone-950 text-white py-20 lg:py-32">
+        <!-- Elementos de fondo decorativos -->
+        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#f97316_1px,transparent_1px)] [background-size:24px_24px] pointer-events-none"></div>
+        <div class="absolute -top-40 -right-40 w-96 h-96 bg-orange-500/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute -bottom-40 -left-40 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <!-- Texto del Hero -->
+                <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                    <div class="inline-flex items-center space-x-2 bg-orange-500/10 border border-orange-500/30 text-orange-400 px-4 py-1.5 rounded-full text-sm font-semibold">
+                        <i class="fa-solid fa-seedling"></i>
+                        <span>Proyecto Maker & Videojuego Web</span>
+                    </div>
+                    
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-tight">
+                        🌳 El Lorax <br>
+                        <span class="bg-gradient-to-r from-orange-400 via-amber-300 to-yellow-200 bg-clip-text text-transparent">Un controlador físico para un videojuego</span>
+                    </h1>
+
+                    <blockquote class="text-xl sm:text-2xl italic font-light text-stone-300 border-l-4 border-orange-500 pl-4 my-4 max-w-2xl mx-auto lg:mx-0">
+                        «Yo hablo por los árboles.»
+                    </blockquote>
+
+                    <p class="text-stone-400 text-base sm:text-lg max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                        Un videojuego interactivo del Lorax que se maneja con una cajita artesanal naranja y café construida con Arduino, un botón arcade y un potenciómetro deslizable. ¡Tecnología y ecología unidas!
+                    </p>
+
+                    <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-4">
+                        <a href="#jugar" class="bg-orange-500 hover:bg-orange-600 text-white font-bold px-8 py-4 rounded-xl shadow-lg shadow-orange-500/30 transition-all hover:scale-105 flex items-center space-x-3 text-base">
+                            <i class="fa-solid fa-gamepad text-xl"></i>
+                            <span>Ir al Juego / Conectar</span>
+                        </a>
+                        <a href="https://youtu.be/5sr6EDafLVo" target="_blank" class="bg-stone-800 hover:bg-stone-700 text-stone-200 font-semibold px-6 py-4 rounded-xl border border-stone-700 transition-all hover:border-orange-500/50 flex items-center space-x-3 text-base">
+                            <i class="fa-brands fa-youtube text-red-500 text-xl"></i>
+                            <span>Ver Video Explicativo</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Imagen principal del Controlador -->
+                <div class="lg:col-span-5 flex justify-center">
+                    <div class="relative group">
+                        <div class="absolute -inset-1 bg-gradient-to-r from-orange-500 to-amber-600 rounded-2xl blur-lg opacity-30 group-hover:opacity-75 transition duration-500"></div>
+                        <div class="relative bg-stone-800 border border-stone-700 p-3 rounded-2xl shadow-2xl max-w-md w-full">
+                            <img src="IMG_3788.jpeg" alt="Controlador final del Lorax" class="rounded-xl w-full h-auto object-cover shadow-inner" onerror="this.src='https://placehold.co/620x450/f97316/ffffff?text=Controlador+El+Lorax'">
+                            <div class="mt-3 px-2 flex items-center justify-between text-xs text-stone-400 font-medium">
+                                <span class="flex items-center space-x-1.5">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                                    <span>Controlador físico final conectado</span>
+                                </span>
+                                <span>Arduino UNO R3</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección ¿De qué se trata? -->
+    <section id="que-es" class="py-20 bg-stone-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <span class="text-orange-600 font-bold tracking-wider uppercase text-sm">Concepto del Proyecto</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-stone-900">¿De qué se trata?</h2>
+                <p class="text-stone-600 text-lg">
+                    El Lorax corre por un bosque de Truffulas mientras las máquinas del Once-ler y el smog avanzan contra él. El jugador tiene que <strong class="text-stone-900">saltar</strong> los tocones, <strong class="text-stone-900">pegarle</strong> a las máquinas y al humo, y recoger semillas. Cada enemigo derrotado planta un arbolito, y a medida que el bosque crece, la niebla gris del cielo se va despejando.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center max-w-5xl mx-auto">
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-stone-200 hover:shadow-md transition-shadow">
+                    <div class="w-12 h-12 bg-orange-100 text-orange-600 rounded-xl flex items-center justify-center text-2xl font-bold mb-6">
+                        <i class="fa-solid fa-laptop-code"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-stone-900 mb-3">Interfaz (El Juego web)</h3>
+                    <p class="text-stone-600 leading-relaxed">
+                        Una página web interactiva con el Lorax corriendo y saltando, optimizada para abrirse en el computador. Utiliza tecnologías web modernas y la API de <strong>Web Serial</strong> para comunicarse directamente con el hardware en tiempo real sin mostrar datos crudos en pantalla.
+                    </p>
+                </div>
+
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-stone-200 hover:shadow-md transition-shadow">
+                    <div class="w-12 h-12 bg-amber-100 text-amber-700 rounded-xl flex items-center justify-center text-2xl font-bold mb-6">
+                        <i class="fa-solid fa-box-archive"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-stone-900 mb-3">Controladora (Hardware Arduino)</h3>
+                    <p class="text-stone-600 leading-relaxed">
+                        La cajita física con el Arduino en su interior, conectada por puerto USB. Es el mando físico exclusivo que el jugador tiene en las manos, diseñado a medida para simular una experiencia arcade y temática.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Cómo se juega -->
+    <section id="como-se-juega" class="py-20 bg-stone-900 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <span class="text-orange-400 font-bold tracking-wider uppercase text-sm">Mecánicas de Juego</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white">🕹️ Cómo se juega</h2>
+                <p class="text-stone-400 text-lg">
+                    Domina los controles físicos de la cajita o utiliza tu teclado para salvar el bosque de las máquinas del Once-ler.
+                </p>
+            </div>
+
+            <!-- Tabla de Controles -->
+            <div class="max-w-4xl mx-auto bg-stone-800 rounded-2xl border border-stone-700 overflow-hidden shadow-2xl mb-12">
+                <div class="bg-stone-850 px-6 py-4 border-b border-stone-700">
+                    <h3 class="text-lg font-bold text-orange-400 flex items-center space-x-2">
+                        <i class="fa-solid fa-gamepad"></i>
+                        <span>Controles de la Caja</span>
+                    </h3>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="border-b border-stone-700 text-stone-400 text-sm uppercase bg-stone-900/50">
+                                <th class="px-6 py-4">Control en la caja</th>
+                                <th class="px-6 py-4">Pin Arduino</th>
+                                <th class="px-6 py-4">Qué hace en el juego</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-stone-700 text-stone-300 text-sm">
+                            <tr class="hover:bg-stone-750 transition-colors">
+                                <td class="px-6 py-4 font-semibold text-white flex items-center space-x-2">
+                                    <i class="fa-regular fa-circle-dot text-orange-400"></i>
+                                    <span>Botón arcade</span>
+                                </td>
+                                <td class="px-6 py-4 font-mono text-orange-300">Pin 2</td>
+                                <td class="px-6 py-4"><strong>Saltar.</strong> Si lo pulsas otra vez en el aire, haces un <strong>doble salto</strong> más alto.</td>
+                            </tr>
+                            <tr class="hover:bg-stone-750 transition-colors">
+                                <td class="px-6 py-4 font-semibold text-white flex items-center space-x-2">
+                                    <i class="fa-solid fa-sliders text-orange-400"></i>
+                                    <span>Palanca deslizable</span>
+                                </td>
+                                <td class="px-6 py-4 font-mono text-orange-300">A0</td>
+                                <td class="px-6 py-4"><strong>Golpear.</strong> Un movimiento rápido de la palanca (potenciómetro) hace que el Lorax pegue.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Grid de Reglas y Alternativa de Teclado -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <div class="bg-stone-800 p-6 rounded-2xl border border-stone-700">
+                    <h4 class="text-lg font-bold text-orange-400 mb-4 flex items-center space-x-2">
+                        <i class="fa-solid fa-shield-halved"></i>
+                        <span>Reglas del Juego</span>
+                    </h4>
+                    <ul class="space-y-3 text-stone-300 text-sm">
+                        <li class="flex items-start space-x-2">
+                            <span class="text-orange-400 font-bold">🪚</span>
+                            <span><strong>Máquinas cortadoras:</strong> pégales para destruirlas.</span>
+                        </li>
+                        <li class="flex items-start space-x-2">
+                            <span class="text-orange-400 font-bold">☁️</span>
+                            <span><strong>Nubes de smog:</strong> pégales o esquívalas.</span>
+                        </li>
+                        <li class="flex items-start space-x-2">
+                            <span class="text-orange-400 font-bold">🪵</span>
+                            <span><strong>Tocones:</strong> no se pueden golpear, hay que saltarlos.</span>
+                        </li>
+                        <li class="flex items-start space-x-2">
+                            <span class="text-orange-400 font-bold">✨</span>
+                            <span><strong>Semillas de Truffula:</strong> recógelas para sumar puntos.</span>
+                        </li>
+                        <li class="flex items-start space-x-2">
+                            <span class="text-orange-400 font-bold">🌱</span>
+                            <span>Cada enemigo vencido planta un árbol; con más árboles el cielo se aclara.</span>
+                        </li>
+                        <li class="flex items-start space-x-2">
+                            <span class="text-orange-400 font-bold">❤️</span>
+                            <span>Tienes <strong>3 vidas</strong> y el juego se acelera mientras avanzas.</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-stone-800 p-6 rounded-2xl border border-stone-700 flex flex-col justify-between">
+                    <div>
+                        <h4 class="text-lg font-bold text-amber-400 mb-4 flex items-center space-x-2">
+                            <i class="fa-solid fa-keyboard"></i>
+                            <span>Para probar sin Arduino (Teclado)</span>
+                        </h4>
+                        <p class="text-stone-300 text-sm mb-4 leading-relaxed">
+                            Si no tienes la caja conectada, puedes jugar directamente usando el teclado de tu computador:
+                        </p>
+                        <div class="space-y-2 text-xs font-mono bg-stone-900 p-4 rounded-xl border border-stone-700 text-stone-300">
+                            <p>⌨️ <strong class="text-orange-400">Espacio / ↑ / W</strong> : Saltar / Doble salto</p>
+                            <p>⌨️ <strong class="text-orange-400">G o Clic</strong> : Golpear</p>
+                            <p>⌨️ <strong class="text-orange-400">M</strong> : Silenciar la música</p>
+                        </div>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-stone-700 text-xs text-stone-400 text-center">
+                        Funciona en Google Chrome y Microsoft Edge (requiere Web Serial API para hardware).
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Materiales y Estructura -->
+    <section id="materiales" class="py-20 bg-stone-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <span class="text-orange-600 font-bold tracking-wider uppercase text-sm">Inventario & Organización</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-stone-900">🧰 Materiales y Estructura del Repositorio</h2>
+                <p class="text-stone-600 text-lg">
+                    Componentes físicos utilizados para armar el controlador y distribución de archivos del proyecto.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+                <!-- Lista de Materiales -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-stone-200">
+                    <h3 class="text-xl font-bold text-stone-900 mb-6 flex items-center space-x-3">
+                        <i class="fa-solid fa-screwdriver-wrench text-orange-600"></i>
+                        <span>Lista de Materiales</span>
+                    </h3>
+                    <ul class="space-y-4 text-stone-700">
+                        <li class="flex items-center space-x-3 pb-3 border-b border-stone-100">
+                            <i class="fa-solid fa-microchip text-orange-500 text-lg w-6"></i>
+                            <span>Arduino UNO R3</span>
+                        </li>
+                        <li class="flex items-center space-x-3 pb-3 border-b border-stone-100">
+                            <i class="fa-solid fa-border-all text-orange-500 text-lg w-6"></i>
+                            <span>Placa perforada de 5 × 7 cm (hecha a medida como <em>shield</em>)</span>
+                        </li>
+                        <li class="flex items-center space-x-3 pb-3 border-b border-stone-100">
+                            <i class="fa-solid fa-sliders text-orange-500 text-lg w-6"></i>
+                            <span>Potenciómetro deslizable</span>
+                        </li>
+                        <li class="flex items-center space-x-3 pb-3 border-b border-stone-100">
+                            <i class="fa-regular fa-circle-dot text-orange-500 text-lg w-6"></i>
+                            <span>Botón arcade con microswitch</span>
+                        </li>
+                        <li class="flex items-center space-x-3 pb-3 border-b border-stone-100">
+                            <i class="fa-solid fa-bolt text-orange-500 text-lg w-6"></i>
+                            <span>Cables, estaño y soldador</span>
+                        </li>
+                        <li class="flex items-center space-x-3 pb-3 border-b border-stone-100">
+                            <i class="fa-solid fa-plug text-orange-500 text-lg w-6"></i>
+                            <span>Cable USB</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <i class="fa-solid fa-box text-orange-500 text-lg w-6"></i>
+                            <span>Caja impresa en 3D (cuerpo naranja + tapa café)</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Estructura del Repositorio -->
+                <div class="bg-stone-900 text-stone-200 p-8 rounded-2xl shadow-lg border border-stone-800 font-mono text-sm flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-xl font-bold text-white mb-6 flex items-center space-x-3 font-sans">
+                            <i class="fa-solid fa-folder-tree text-orange-400"></i>
+                            <span>Contenido del Repositorio</span>
+                        </h3>
+                        <div class="bg-stone-950 p-5 rounded-xl border border-stone-800 space-y-2 text-stone-300 overflow-x-auto">
+                            <p class="text-orange-400 font-bold">├── index.html <span class="text-stone-500 font-normal"># El juego (se abre en el navegador)</span></p>
+                            <p>├── probarsifunciona.ino <span class="text-stone-500 font-normal"># Código del Arduino</span></p>
+                            <p>├── cajita.3dm <span class="text-stone-500 font-normal"># Modelo 3D de la caja (Rhino)</span></p>
+                            <p>├── IMG_3637.jpeg <span class="text-stone-500 font-normal"># Primer montaje con cables sueltos</span></p>
+                            <p>├── IMG_3638.jpeg <span class="text-stone-500 font-normal"># Placa soldada</span></p>
+                            <p>├── IMG_3788.jpeg <span class="text-stone-500 font-normal"># Caja final</span></p>
+                            <p>├── intento1.png <span class="text-stone-500 font-normal"># Intento 1: diseño en Rhino</span></p>
+                            <p>├── intento1.2.jpeg <span class="text-stone-500 font-normal"># Intento 1: caja armada</span></p>
+                            <p class="text-stone-400">└── README.md</p>
+                        </div>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-stone-800 text-xs text-stone-400 font-sans flex items-center justify-between">
+                        <span>Repositorio Git Oficial</span>
+                        <span class="text-orange-400 font-semibold">Abierto a la comunidad Maker</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección Desarrollo Paso a Paso -->
+    <section id="desarrollo" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <span class="text-orange-600 font-bold tracking-wider uppercase text-sm">Bitácora de Construcción</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-stone-900">🛠️ Desarrollo, paso a paso</h2>
+                <p class="text-stone-600 text-lg">
+                    El proceso completo desde el código inicial del microcontrolador y las pruebas de prototipo hasta la fabricación de la caja final en 3D.
+                </p>
+            </div>
+
+            <div class="space-y-16 max-w-5xl mx-auto">
+                <!-- Paso 1 -->
+                <div class="bg-stone-50 p-8 rounded-2xl border border-stone-200">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <span class="w-10 h-10 rounded-xl bg-orange-500 text-white font-bold flex items-center justify-center text-lg shadow-md">1</span>
+                        <h3 class="text-2xl font-bold text-stone-900">El código del Arduino</h3>
+                    </div>
+                    <p class="text-stone-700 leading-relaxed mb-4">
+                        Lo primero fue lograr que el Arduino «hablara» con el computador. El sketch <code>probarsifunciona.ino</code> lee dos cosas cada 100 ms y las envía por el puerto serie a 9600 baudios:
+                    </p>
+                    <ul class="list-disc pl-6 space-y-2 text-stone-700 mb-6">
+                        <li>El <strong>botón</strong> en el pin 2, configurado con <code>INPUT_PULLUP</code> (no necesita resistencia externa: cuando se aprieta, el pin lee <code>LOW</code>).</li>
+                        <li>El <strong>potenciómetro</strong> en el pin analógico <code>A0</code> (valores de 0 a 1023).</li>
+                    </ul>
+                    <div class="bg-stone-900 text-orange-300 p-4 rounded-xl font-mono text-xs sm:text-sm overflow-x-auto shadow-inner">
+                        Botón: PRESIONADO &nbsp;&nbsp;|&nbsp;&nbsp; Potenciómetro: 512
+                    </div>
+                    <p class="text-stone-600 text-sm mt-4">
+                        El juego lee esas líneas, detecta si dice <code>PRESIONADO</code> y toma el número del final para accionar las acciones del Lorax.
+                    </p>
+                </div>
+
+                <!-- Paso 2 -->
+                <div class="bg-stone-50 p-8 rounded-2xl border border-stone-200">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <span class="w-10 h-10 rounded-xl bg-orange-500 text-white font-bold flex items-center justify-center text-lg shadow-md">2</span>
+                        <h3 class="text-2xl font-bold text-stone-900">Las conexiones</h3>
+                    </div>
+                    <p class="text-stone-700 leading-relaxed mb-6">
+                        Primero armé todo con cables sueltos para comprobar que funcionaba. Es el primer montaje: el potenciómetro deslizable y el botón conectados directamente al Arduino.
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                        <div class="rounded-xl overflow-hidden shadow-md border border-stone-300 bg-white p-2">
+                            <img src="IMG_3637.jpeg" alt="Primer montaje con cables sueltos" class="rounded-lg w-full h-auto object-cover" onerror="this.src='https://placehold.co/420x300/f97316/ffffff?text=Primer+Montaje'">
+                            <p class="text-xs text-center text-stone-500 mt-2 font-medium">Primer montaje con cables sueltos</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-xl border border-stone-200">
+                            <h4 class="font-bold text-stone-900 mb-3">Esquema de conexión:</h4>
+                            <ul class="space-y-3 text-sm text-stone-700">
+                                <li class="flex items-start space-x-2">
+                                    <strong class="text-orange-600">Botón:</strong>
+                                    <span>Un terminal al <strong>pin 2</strong> y el otro a <strong>GND</strong>.</span>
+                                </li>
+                                <li class="flex items-start space-x-2">
+                                    <strong class="text-orange-600">Potenciómetro deslizable:</strong>
+                                    <span>Un extremo a <strong>5V</strong>, el otro a <strong>GND</strong> y el cursor (pin central) a <strong>A0</strong>.</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Paso 3 -->
+                <div class="bg-stone-50 p-8 rounded-2xl border border-stone-200">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <span class="w-10 h-10 rounded-xl bg-orange-500 text-white font-bold flex items-center justify-center text-lg shadow-md">3</span>
+                        <h3 class="text-2xl font-bold text-stone-900">Soldar la placa</h3>
+                    </div>
+                    <p class="text-stone-700 leading-relaxed mb-6">
+                        Para que no se soltara ningún cable, pasé el circuito a una <strong>placa perforada</strong> que va montada encima del Arduino. Soldé con <strong>estaño</strong> los cables del potenciómetro y del botón a la placa. Desde ahí salen los cables que van al deslizable y al botón de la caja.
+                    </p>
+                    <div class="max-w-2xl mx-auto rounded-xl overflow-hidden shadow-md border border-stone-300 bg-white p-2">
+                        <img src="IMG_3638.jpeg" alt="Placa perforada soldada encima del Arduino" class="rounded-lg w-full h-auto object-cover" onerror="this.src='https://placehold.co/620x400/f97316/ffffff?text=Placa+Soldada'">
+                        <p class="text-xs text-center text-stone-500 mt-2 font-medium">Placa perforada soldada como shield sobre el Arduino</p>
+                    </div>
+                </div>
+
+                <!-- Paso 4 -->
+                <div class="bg-stone-50 p-8 rounded-2xl border border-stone-200">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <span class="w-10 h-10 rounded-xl bg-red-500 text-white font-bold flex items-center justify-center text-lg shadow-md">4</span>
+                        <h3 class="text-2xl font-bold text-stone-900">❌ Intento 1: la caja que no funcionó</h3>
+                    </div>
+                    <p class="text-stone-700 leading-relaxed mb-6">
+                        Antes de la caja final hice una primera versión. La diseñé en <strong>Rhino</strong> y la armé con piezas blancas encajadas, con un monito azul pegado a un costado.
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center mb-6">
+                        <div class="rounded-xl overflow-hidden shadow-md border border-stone-300 bg-white p-2">
+                            <img src="intento1.png" alt="Diseño de la primera caja en Rhino" class="rounded-lg w-full h-auto object-cover" onerror="this.src='https://placehold.co/520x350/f97316/ffffff?text=Diseno+Rhino'">
+                            <p class="text-xs text-center text-stone-500 mt-2 font-medium">Diseño 3D en Rhino</p>
+                        </div>
+                        <div class="rounded-xl overflow-hidden shadow-md border border-stone-300 bg-white p-2">
+                            <img src="intento1.2.jpeg" alt="Primera caja armada blanca" class="rounded-lg w-full h-auto object-cover" onerror="this.src='https://placehold.co/380x350/f97316/ffffff?text=Caja+Intento+1'">
+                            <p class="text-xs text-center text-stone-500 mt-2 font-medium">Primera caja armada (blanca)</p>
+                        </div>
+                    </div>
+                    <div class="bg-red-50 border-l-4 border-red-500 p-4 rounded-r-xl">
+                        <h4 class="font-bold text-red-800 mb-1">Por qué no funcionó (Lección aprendida):</h4>
+                        <p class="text-red-700 text-sm">
+                            Las medidas no estaban bien: el botón no pasaba por el agujero de la tapa y el cable USB tampoco entraba por la abertura del costado. Aprendí a medir los componentes reales (el botón con su tuerca y el conector USB) antes de dibujar los agujeros.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Paso 5 -->
+                <div class="bg-stone-50 p-8 rounded-2xl border border-stone-200">
+                    <div class="flex items-center space-x-3 mb-4">
+                        <span class="w-10 h-10 rounded-xl bg-emerald-500 text-white font-bold flex items-center justify-center text-lg shadow-md">5</span>
+                        <h3 class="text-2xl font-bold text-stone-900">✅ La caja final</h3>
+                    </div>
+                    <p class="text-stone-700 leading-relaxed mb-6">
+                        La versión final es una caja de dos colores, <strong>naranja</strong> en el cuerpo y <strong>café</strong> en la tapa, como el Lorax y un tronco de Truffula:
+                    </p>
+                    <ul class="list-disc pl-6 space-y-2 text-stone-700 mb-6">
+                        <li>En la <strong>tapa</strong>, vetas de madera grabadas, una ranura por donde se desliza la palanca blanca y el agujero para el botón arcade.</li>
+                        <li>En el <strong>cuerpo</strong>, las cejas y el bigote del Lorax en relieve.</li>
+                        <li>El <strong>cable USB</strong> entra sin problema por el costado.</li>
+                    </ul>
+                    <div class="max-w-2xl mx-auto rounded-xl overflow-hidden shadow-md border border-stone-300 bg-white p-2">
+                        <img src="IMG_3788.jpeg" alt="Controlador final del Lorax" class="rounded-lg w-full h-auto object-cover" onerror="this.src='https://placehold.co/620x450/f97316/ffffff?text=Caja+Final+Lorax'">
+                        <p class="text-xs text-center text-stone-500 mt-2 font-medium">Controlador final del Lorax conectado</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Jugar / Conectar Arduino interactiva -->
+    <section id="jugar" class="py-20 bg-gradient-to-br from-stone-900 via-stone-900 to-orange-950 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+                <span class="text-orange-400 font-bold tracking-wider uppercase text-sm">Experiencia Interactiva</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white">▶️ Jugar y Conectar Arduino</h2>
+                <p class="text-stone-300 text-lg">
+                    Sigue los pasos para conectar tu hardware por Web Serial o inicia el videojuego en tu navegador.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-6xl mx-auto mb-12">
+                <!-- Paso instrucción 1 -->
+                <div class="bg-stone-800/80 backdrop-blur border border-stone-700 p-6 rounded-2xl space-y-3">
+                    <div class="w-10 h-10 rounded-xl bg-orange-500 text-white font-bold flex items-center justify-center">1</div>
+                    <h3 class="text-lg font-bold text-white">Sube el código</h3>
+                    <p class="text-stone-300 text-sm leading-relaxed">
+                        Sube <code>probarsifunciona.ino</code> al Arduino desde el IDE de Arduino y <strong>cierra el Monitor Serie</strong> (si queda abierto, bloqueará el puerto).
+                    </p>
+                </div>
+
+                <!-- Paso instrucción 2 -->
+                <div class="bg-stone-800/80 backdrop-blur border border-stone-700 p-6 rounded-2xl space-y-3">
+                    <div class="w-10 h-10 rounded-xl bg-orange-500 text-white font-bold flex items-center justify-center">2</div>
+                    <h3 class="text-lg font-bold text-white">Abre en navegador compatible</h3>
+                    <p class="text-stone-300 text-sm leading-relaxed">
+                        Abre esta página en <strong>Google Chrome</strong> o <strong>Microsoft Edge</strong> (Firefox y Safari no soportan Web Serial).
+                    </p>
+                </div>
+
+                <!-- Paso instrucción 3 -->
+                <div class="bg-stone-800/80 backdrop-blur border border-stone-700 p-6 rounded-2xl space-y-3">
+                    <div class="w-10 h-10 rounded-xl bg-orange-500 text-white font-bold flex items-center justify-center">3</div>
+                    <h3 class="text-lg font-bold text-white">Conecta y Salva el Bosque</h3>
+                    <p class="text-stone-300 text-sm leading-relaxed">
+                        Haz clic en el botón inferior para conectar el puerto serie del Arduino y comienza la partida.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Panel de Control Web Serial interactivo -->
+            <div class="max-w-2xl mx-auto bg-stone-800 border border-stone-700 p-8 rounded-3xl shadow-2xl text-center space-y-6">
+                <div class="w-16 h-16 bg-gradient-to-br from-orange-500 to-amber-600 rounded-2xl mx-auto flex items-center justify-center text-3xl shadow-lg shadow-orange-500/30">
+                    <i class="fa-solid fa-plug-circle-bolt"></i>
+                </div>
+                <div>
+                    <h3 class="text-2xl font-bold text-white mb-2">Conexión Web Serial con Arduino</h3>
+                    <p id="serial-status" class="text-stone-400 text-sm">Estado: Desconectado</p>
+                </div>
+
+                <div class="flex flex-wrap justify-center gap-4">
+                    <button id="connect-btn" class="bg-orange-500 hover:bg-orange-600 text-white font-bold px-8 py-4 rounded-xl shadow-lg shadow-orange-500/30 transition-all hover:scale-105 flex items-center space-x-3">
+                        <i class="fa-solid fa-usb text-xl"></i>
+                        <span>🔌 Conectar Arduino</span>
+                    </button>
+                    <button id="disconnect-btn" class="hidden bg-stone-700 hover:bg-stone-600 text-stone-200 font-semibold px-6 py-4 rounded-xl transition-all">
+                        Desconectar
+                    </button>
+                </div>
+
+                <!-- Simulación de lectura de datos en tiempo real -->
+                <div id="serial-data-box" class="hidden bg-stone-900 border border-stone-700 p-4 rounded-xl text-left font-mono text-xs text-stone-300 space-y-1">
+                    <p class="text-orange-400 font-bold">📡 Datos recibidos del puerto serie:</p>
+                    <p id="serial-output">Esperando pulsaciones...</p>
+                </div>
+
+                <div class="pt-4 border-t border-stone-700">
+                    <button id="launch-game-btn" class="w-full bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white font-bold py-4 rounded-xl shadow-lg transition-all hover:scale-[1.02] flex items-center justify-center space-x-2 text-lg">
+                        <i class="fa-solid fa-gamepad"></i>
+                        <span>🚀 Iniciar Videojuego del Lorax</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal del Videojuego Interactivo (Simulador embebido del Lorax) -->
+    <div id="game-modal" class="fixed inset-0 z-50 hidden bg-black/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-6">
+        <div class="bg-stone-900 border border-stone-700 rounded-3xl w-full max-w-4xl overflow-hidden shadow-2xl flex flex-col max-h-[90vh]">
+            <!-- Header del Modal -->
+            <div class="bg-stone-800 px-6 py-4 flex items-center justify-between border-b border-stone-700">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 rounded-lg bg-orange-500 flex items-center justify-center text-white font-bold">
+                        <i class="fa-solid fa-tree"></i>
+                    </div>
+                    <span class="font-bold text-white text-lg">🌳 El Lorax · Videojuego en Ejecución</span>
+                </div>
+                <button id="close-modal-btn" class="text-stone-400 hover:text-white p-2 rounded-lg hover:bg-stone-700 transition-colors">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+            <!-- Canvas del Juego -->
+            <div class="relative bg-stone-950 flex-1 flex flex-col items-center justify-center p-4 overflow-hidden">
+                <canvas id="gameCanvas" width="800" height="400" class="w-full max-w-full rounded-xl shadow-2xl bg-gradient-to-b from-sky-400 to-emerald-200 border-2 border-stone-700"></canvas>
+                <!-- HUD en pantalla -->
+                <div class="absolute top-6 left-8 right-8 flex justify-between items-center pointer-events-none text-stone-900 font-extrabold text-lg sm:text-xl drop-shadow">
+                    <div class="flex items-center space-x-4 bg-white/80 backdrop-blur px-4 py-2 rounded-xl shadow">
+                        <span id="score-display">✨ Semillas: 0</span>
+                        <span id="trees-display">🌱 Árboles: 0</span>
+                    </div>
+                    <div class="bg-white/80 backdrop-blur px-4 py-2 rounded-xl shadow flex items-center space-x-1 text-red-600" id="lives-display">
+                        ❤️❤️❤️
+                    </div>
+                </div>
+                <!-- Instrucciones flotantes en juego -->
+                <div class="mt-4 text-center text-xs text-stone-400">
+                    Controles: <strong class="text-orange-400">Espacio / W / ↑</strong> para saltar (doble salto) | <strong class="text-orange-400">G</strong> para golpear | <strong class="text-orange-400">M</strong> silenciar
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-stone-950 text-stone-400 py-12 border-t border-stone-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 rounded-lg bg-orange-500 flex items-center justify-center text-white font-bold">
+                    <i class="fa-solid fa-tree"></i>
+                </div>
+                <span class="font-bold text-white">El Lorax · Controlador Físico Arduino</span>
+            </div>
+            <p class="text-sm text-stone-500">
+                &copy; 2026 · «A menos que alguien como tú se preocupe de verdad, nada va a mejorar jamás.»
+            </p>
+            <div class="flex space-x-4 text-stone-400">
+                <a href="https://youtu.be/5sr6EDafLVo" target="_blank" class="hover:text-orange-400 transition-colors"><i class="fa-brands fa-youtube text-xl"></i></a>
+                <a href="#inicio" class="hover:text-orange-400 transition-colors"><i class="fa-solid fa-arrow-up text-xl"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript interactivo y del juego -->
+    <script>
+        // Sistema de Notificación Toast (reemplazo de alert)
+        function showToast(message, type = 'info') {
+            const toast = document.getElementById('toast');
+            const messageEl = document.getElementById('toast-message');
+            const iconEl = document.getElementById('toast-icon');
+
+            messageEl.textContent = message;
+            if (type === 'success') {
+                iconEl.className = 'fa-solid fa-circle-check text-green-400 text-lg';
+            } else if (type === 'error') {
+                iconEl.className = 'fa-solid fa-circle-exclamation text-red-400 text-lg';
+            } else {
+                iconEl.className = 'fa-solid fa-circle-info text-orange-400 text-lg';
+            }
+
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3500);
+        }
+
+        // Menú móvil toggle
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Web Serial API integración
+        let port;
+        let reader;
+        let keepReading = false;
+
+        const connectBtn = document.getElementById('connect-btn');
+        const disconnectBtn = document.getElementById('disconnect-btn');
+        const serialStatus = document.getElementById('serial-status');
+        const serialDataBox = document.getElementById('serial-data-box');
+        const serialOutput = document.getElementById('serial-output');
+
+        connectBtn.addEventListener('click', async () => {
+            if (!("serial" in navigator)) {
+                showToast("Tu navegador no soporta Web Serial. Usa Google Chrome o Edge.", "error");
+                return;
+            }
+
+            try {
+                port = await navigator.serial.requestPort();
+                await port.open({ baudRate: 9600 });
+                
+                serialStatus.textContent = "Estado: Conectado al Arduino 🟢";
+                serialStatus.className = "text-emerald-400 font-semibold text-sm";
+                connectBtn.classList.add('hidden');
+                disconnectBtn.classList.remove('hidden');
+                serialDataBox.classList.remove('hidden');
+                showToast("¡Arduino conectado correctamente!", "success");
+
+                keepReading = true;
+                readSerialLoop();
+            } catch (error) {
+                console.error("Error al conectar puerto serie:", error);
+                showToast("Error al conectar con el Arduino.", "error");
+            }
+        });
+
+        disconnectBtn.addEventListener('click', async () => {
+            keepReading = false;
+            if (reader) {
+                await reader.cancel();
+            }
+            if (port) {
+                await port.close();
+            }
+            serialStatus.textContent = "Estado: Desconectado";
+            serialStatus.className = "text-stone-400 text-sm";
+            connectBtn.classList.remove('hidden');
+            disconnectBtn.classList.add('hidden');
+            serialDataBox.classList.add('hidden');
+            showToast("Arduino desconectado.", "info");
+        });
+
+        async function readSerialLoop() {
+            const textDecoder = new TextDecoderStream();
+            const readableStreamClosed = port.readable.pipeTo(textDecoder.writable);
+            reader = textDecoder.readable.getReader();
+
+            try {
+                let buffer = "";
+                while (keepReading) {
+                    const { value, done } = await reader.read();
+                    if (done) break;
+                    if (value) {
+                        buffer += value;
+                        let lines = buffer.split('\n');
+                        buffer = lines.pop(); // Mantener línea incompleta
+                        for (let line of lines) {
+                            line = line.trim();
+                            if (line) {
+                                serialOutput.textContent = line;
+                                parseArduinoData(line);
+                            }
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error("Error leyendo puerto:", error);
+            } finally {
+                reader.releaseLock();
+            }
+        }
+
+        // Interpretar datos del Arduino para el juego
+        function parseArduinoData(data) {
+            // Ejemplo: Botón: PRESIONADO | Potenciómetro: 512
+            if (data.includes("PRESIONADO")) {
+                triggerJump();
+            }
+            if (data.includes("Potenciómetro:")) {
+                let parts = data.split(":");
+                let val = parseInt(parts[parts.length - 1].trim());
+                if (val > 800) {
+                    triggerHit();
+                }
+            }
+        }
+
+        // Lógica del Videojuego Web
+        const launchGameBtn = document.getElementById('launch-game-btn');
+        const gameModal = document.getElementById('game-modal');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        const canvas = document.getElementById('gameCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let gameRunning = false;
+        let score = 0;
+        let trees = 0;
+        let lives = 3;
+
+        // Lorax player
+        let player = {
+            x: 80,
+            y: 280,
+            width: 40,
+            height: 50,
+            vy: 0,
+            jumpPower: -11,
+            gravity: 0.6,
+            isJumping: false,
+            jumpCount: 0,
+            isAttacking: false,
+            attackTimer: 0
+        };
+
+        let obstacles = [];
+        let particles = [];
+        let gameSpeed = 4;
+        let frameCount = 0;
+
+        launchGameBtn.addEventListener('click', () => {
+            gameModal.classList.remove('hidden');
+            startGame();
+        });
+
+        closeModalBtn.addEventListener('click', () => {
+            gameModal.classList.add('hidden');
+            gameRunning = false;
+        });
+
+        function startGame() {
+            gameRunning = true;
+            score = 0;
+            trees = 0;
+            lives = 3;
+            obstacles = [];
+            player.y = 280;
+            player.vy = 0;
+            gameSpeed = 4;
+            frameCount = 0;
+            requestAnimationFrame(gameLoop);
+        }
+
+        function triggerJump() {
+            if (!gameRunning) return;
+            if (player.jumpCount < 2) {
+                player.vy = player.jumpPower;
+                player.jumpCount++;
+                player.isJumping = true;
+            }
+        }
+
+        function triggerHit() {
+            if (!gameRunning) return;
+            player.isAttacking = true;
+            player.attackTimer = 15;
+            // Destruir obstáculo cercano
+            obstacles.forEach(obs => {
+                if (obs.x < player.x + 120 && obs.x > player.x && obs.type !== 'stump') {
+                    obs.destroyed = true;
+                    trees++;
+                    score += 50;
+                }
+            });
+        }
+
+        // Controles de teclado
+        window.addEventListener('keydown', (e) => {
+            if (!gameRunning) return;
+            if (e.code === 'Space' || e.code === 'ArrowUp' || e.code === 'KeyW') {
+                e.preventDefault();
+                triggerJump();
+            }
+            if (e.code === 'KeyG') {
+                e.preventDefault();
+                triggerHit();
+            }
+        });
+
+        function gameLoop() {
+            if (!gameRunning) return;
+
+            frameCount++;
+            // Actualizar física jugador
+            player.vy += player.gravity;
+            player.y += player.vy;
+
+            if (player.y > 280) {
+                player.y = 280;
+                player.vy = 0;
+                player.jumpCount = 0;
+                player.isJumping = false;
+            }
+
+            if (player.isAttacking) {
+                player.attackTimer--;
+                if (player.attackTimer <= 0) player.isAttacking = false;
+            }
+
+            // Generar obstáculos (tocones, máquinas, nubes)
+            if (frameCount % 110 === 0) {
+                const types = ['stump', 'machine', 'smog'];
+                const type = types[Math.floor(Math.random() * types.length)];
+                obstacles.push({
+                    x: canvas.width,
+                    y: type === 'smog' ? 180 : 290,
+                    width: type === 'stump' ? 35 : 50,
+                    height: type === 'stump' ? 40 : 45,
+                    type: type,
+                    destroyed: false
+                });
+            }
+
+            // Mover obstáculos
+            obstacles.forEach(obs => {
+                obs.x -= gameSpeed;
+            });
+
+            // Filtrar obstáculos
+            obstacles = obstacles.filter(obs => obs.x > -60 && !obs.destroyed);
+
+            // Colisiones
+            obstacles.forEach(obs => {
+                if (
+                    player.x < obs.x + obs.width - 10 &&
+                    player.x + player.width > obs.x + 10 &&
+                    player.y < obs.y + obs.height &&
+                    player.y + player.height > obs.y
+                ) {
+                    if (obs.type === 'stump' || !player.isAttacking) {
+                        lives--;
+                        obs.destroyed = true;
+                        showToast("¡Colisión! Pierdes una vida.", "error");
+                        if (lives <= 0) {
+                            gameRunning = false;
+                            showToast("¡Juego terminado! El bosque necesita más ayuda.", "error");
+                        }
+                    } else {
+                        obs.destroyed = true;
+                        trees++;
+                        score += 50;
+                    }
+                }
+            });
+
+            score += 1;
+            gameSpeed = 4 + Math.floor(score / 300);
+
+            // Dibujar en Canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Cielo y fondo degradado dinámico según árboles
+            let skyColor = trees > 10 ? '#38bdf8' : '#cbd5e1';
+            ctx.fillStyle = skyColor;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Suelo
+            ctx.fillStyle = '#15803d';
+            ctx.fillRect(0, 330, canvas.width, 70);
+            ctx.fillStyle = '#166534';
+            ctx.fillRect(0, 330, canvas.width, 10);
+
+            // Dibujar obstáculo árboles/máquinas
+            obstacles.forEach(obs => {
+                if (obs.type === 'stump') {
+                    // Tocón
+                    ctx.fillStyle = '#78350f';
+                    ctx.fillRect(obs.x, obs.y, obs.width, obs.height);
+                    ctx.fillStyle = '#92400e';
+                    ctx.fillRect(obs.x + 5, obs.y + 5, obs.width - 10, 8);
+                } else if (obs.type === 'machine') {
+                    // Máquina Once-ler
+                    ctx.fillStyle = '#b91c1c';
+                    ctx.fillRect(obs.x, obs.y, obs.width, obs.height);
+                    ctx.fillStyle = '#fef08a';
+                    ctx.fillRect(obs.x + 10, obs.y + 10, 15, 15);
+                } else {
+                    // Smog
+                    ctx.fillStyle = '#64748b';
+                    ctx.beginPath();
+                    ctx.arc(obs.x + 20, obs.y + 20, 22, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            });
+
+            // Dibujar Lorax (personaje anaranjado y bigote)
+            // Cuerpo
+            ctx.fillStyle = '#f97316';
+            ctx.fillRect(player.x, player.y, player.width, player.height);
+            // Bigote amarillo característico
+            ctx.fillStyle = '#fef08a';
+            ctx.fillRect(player.x - 5, player.y + 15, player.width + 10, 12);
+            // Ojos
+            ctx.fillStyle = '#1c1917';
+            ctx.fillRect(player.x + 10, player.y + 8, 5, 5);
+            ctx.fillRect(player.x + 25, player.y + 8, 5, 5);
+
+            // Efecto ataque
+            if (player.isAttacking) {
+                ctx.strokeStyle = '#fef08a';
+                ctx.lineWidth = 4;
+                ctx.strokeRect(player.x - 10, player.y - 10, player.width + 20, player.height + 20);
+            }
+
+            // Actualizar HUD
+            document.getElementById('score-display').textContent = `✨ Semillas: ${score}`;
+            document.getElementById('trees-display').textContent = `🌱 Árboles: ${trees}`;
+            document.getElementById('lives-display').textContent = '❤️'.repeat(Math.max(0, lives));
+
+            if (gameRunning) {
+                requestAnimationFrame(gameLoop);
+            } else {
+                ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.fillStyle = '#ffffff';
+                ctx.font = 'bold 30px Inter';
+                ctx.textAlign = 'center';
+                ctx.fillText('¡JUEGO TERMINADO!', canvas.width / 2, canvas.height / 2 - 20);
+                ctx.font = '16px Inter';
+                ctx.fillText('Haz clic en Iniciar Videojuego para volver a intentar', canvas.width / 2, canvas.height / 2 + 20);
+            }
+        }
+    </script>
+</body>
+</html>
