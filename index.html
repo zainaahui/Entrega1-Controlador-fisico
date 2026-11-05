@@ -37,7 +37,6 @@
             background-color: #fafaf9;
             color: #1c1917;
         }
-        /* Custom scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -78,13 +77,12 @@
                 <a href="#como-se-juega" class="text-stone-300 hover:text-orange-400 transition-colors">Cómo se juega</a>
                 <a href="#materiales" class="text-stone-300 hover:text-orange-400 transition-colors">Materiales</a>
                 <a href="#desarrollo" class="text-stone-300 hover:text-orange-400 transition-colors">Desarrollo Paso a Paso</a>
-                <a href="juego.html" class="bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white px-5 py-2.5 rounded-xl shadow-lg shadow-orange-500/20 font-semibold transition-all hover:scale-105 flex items-center space-x-2">
+                <a href="index_2.html" target="_blank" class="bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white px-5 py-2.5 rounded-xl shadow-lg shadow-orange-500/20 font-semibold transition-all hover:scale-105 flex items-center space-x-2">
                     <i class="fa-solid fa-gamepad"></i>
                     <span>Jugar / Conectar</span>
                 </a>
             </nav>
 
-            <!-- Botón hamburguesa móvil -->
             <button id="menu-btn" class="md:hidden text-stone-300 hover:text-white focus:outline-none p-2 rounded-lg bg-stone-800">
                 <i class="fa-solid fa-bars text-xl"></i>
             </button>
@@ -97,7 +95,7 @@
             <a href="#como-se-juega" class="block px-3 py-2 rounded-lg text-stone-300 hover:bg-stone-800 hover:text-orange-400 font-medium">Cómo se juega</a>
             <a href="#materiales" class="block px-3 py-2 rounded-lg text-stone-300 hover:bg-stone-800 hover:text-orange-400 font-medium">Materiales</a>
             <a href="#desarrollo" class="block px-3 py-2 rounded-lg text-stone-300 hover:bg-stone-800 hover:text-orange-400 font-medium">Desarrollo Paso a Paso</a>
-            <a href="juego.html" class="block w-full text-center bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-xl font-semibold shadow-md">Jugar / Conectar</a>
+            <a href="index_2.html" target="_blank" class="block w-full text-center bg-orange-500 hover:bg-orange-600 text-white py-3 rounded-xl font-semibold shadow-md">Jugar / Conectar</a>
         </div>
     </header>
 
@@ -122,7 +120,7 @@
                         Un videojuego interactivo del Lorax que se maneja con una cajita artesanal naranja y café construida con Arduino, un botón arcade y un potenciómetro deslizable. ¡Tecnología y ecología unidas!
                     </p>
                     <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-4">
-                        <a href="juego.html" class="bg-orange-500 hover:bg-orange-600 text-white font-bold px-8 py-4 rounded-xl shadow-lg shadow-orange-500/30 transition-all hover:scale-105 flex items-center space-x-3 text-base">
+                        <a href="index_2.html" target="_blank" class="bg-orange-500 hover:bg-orange-600 text-white font-bold px-8 py-4 rounded-xl shadow-lg shadow-orange-500/30 transition-all hover:scale-105 flex items-center space-x-3 text-base">
                             <i class="fa-solid fa-gamepad text-xl"></i>
                             <span>Ir al Juego / Conectar</span>
                         </a>
@@ -146,39 +144,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Sección ¿De qué se trata? -->
-    <section id="que-es" class="py-20 bg-stone-100">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
-                <span class="text-orange-600 font-bold tracking-wider uppercase text-sm">Concepto del Proyecto</span>
-                <h2 class="text-3xl sm:text-4xl font-extrabold text-stone-900">¿De qué se trata?</h2>
-                <p class="text-stone-600 text-lg">
-                    El Lorax corre por un bosque de Truffulas mientras las máquinas del Once-ler y el smog avanzan contra él. El jugador tiene que <strong class="text-stone-900">saltar</strong> los tocones, <strong class="text-stone-900">pegarle</strong> a las máquinas y al humo, y recoger semillas. Cada enemigo derrotado planta un arbolito, y a medida que el bosque crece, la niebla gris del cielo se va despejando.
-                </p>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center max-w-5xl mx-auto">
-                <div class="bg-white p-8 rounded-2xl shadow-sm border border-stone-200 hover:shadow-md transition-shadow">
-                    <div class="w-12 h-12 bg-orange-100 text-orange-600 rounded-xl flex items-center justify-center text-2xl font-bold mb-6">
-                        <i class="fa-solid fa-laptop-code"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-stone-900 mb-3">Interfaz (El Juego web)</h3>
-                    <p class="text-stone-600 leading-relaxed">
-                        Una página web interactiva con el Lorax corriendo y saltando, optimizada para abrirse en el computador. Utiliza tecnologías web modernas y la API de <strong>Web Serial</strong> para comunicarse directamente con el hardware en tiempo real sin mostrar datos crudos en pantalla.
-                    </p>
-                </div>
-                <div class="bg-white p-8 rounded-2xl shadow-sm border border-stone-200 hover:shadow-md transition-shadow">
-                    <div class="w-12 h-12 bg-amber-100 text-amber-700 rounded-xl flex items-center justify-center text-2xl font-bold mb-6">
-                        <i class="fa-solid fa-box-archive"></i>
-                    </div>
-                    <h3 class="text-xl font-bold text-stone-900 mb-3">Controladora (Hardware Arduino)</h3>
-                    <p class="text-stone-600 leading-relaxed">
-                        La cajita física con el Arduino en su interior, conectada por puerto USB. Es el mando físico exclusivo que el jugador tiene en las manos, diseñado a medida para simular una experiencia arcade y temática.
-                    </p>
                 </div>
             </div>
         </div>
@@ -234,21 +199,26 @@
         </div>
     </section>
 
-    <!-- Sección de Enlace Directo al Juego -->
-    <section id="jugar" class="py-20 bg-gradient-to-br from-stone-900 via-stone-900 to-orange-950 text-white text-center">
-        <div class="max-w-3xl mx-auto px-4 space-y-6">
-            <div class="w-16 h-16 bg-gradient-to-br from-orange-500 to-amber-600 rounded-2xl mx-auto flex items-center justify-center text-3xl shadow-lg shadow-orange-500/30">
-                <i class="fa-solid fa-gamepad"></i>
+    <!-- Sección de Jugar / Conectar Arduino interactiva con tu juego real embebido -->
+    <section id="jugar" class="py-20 bg-gradient-to-br from-stone-900 via-stone-900 to-orange-950 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-8">
+            <div class="max-w-3xl mx-auto space-y-4">
+                <span class="text-orange-400 font-bold tracking-wider uppercase text-sm">Experiencia Interactiva</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white">▶️ Juega directamente aquí</h2>
+                <p class="text-stone-300 text-lg">
+                    Puedes interactuar con el videojuego oficial de tu archivo <code>index_2.html</code> directamente desde esta ventana o abrirlo en pantalla completa.
+                </p>
+                <div class="pt-2">
+                    <a href="index_2.html" target="_blank" class="inline-flex items-center space-x-3 bg-orange-500 hover:bg-orange-600 text-white font-bold px-8 py-4 rounded-xl shadow-lg transition-all hover:scale-105">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        <span>Abrir el juego en pantalla completa</span>
+                    </a>
+                </div>
             </div>
-            <h2 class="text-3xl font-extrabold">¿Listo para jugar?</h2>
-            <p class="text-stone-300">
-                Haz clic en el botón de abajo para abrir la pantalla principal del videojuego del Lorax y conectar tu Arduino.
-            </p>
-            <div class="pt-4">
-                <a href="juego.html" class="inline-flex items-center space-x-3 bg-gradient-to-r from-orange-500 to-amber-600 hover:from-orange-600 hover:to-amber-700 text-white font-bold px-10 py-5 rounded-2xl shadow-xl transition-all hover:scale-105 text-xl">
-                    <i class="fa-solid fa-play"></i>
-                    <span>Abrir Videojuego del Lorax</span>
-                </a>
+
+            <!-- Contenedor iframe que carga tu juego real de index_2.html -->
+            <div class="max-w-5xl mx-auto bg-stone-950 p-3 rounded-3xl border-2 border-stone-700 shadow-2xl overflow-hidden">
+                <iframe src="index_2.html" class="w-full h-[550px] rounded-2xl border-0" title="Videojuego El Lorax"></iframe>
             </div>
         </div>
     </section>
@@ -268,18 +238,7 @@
         </div>
     </footer>
 
-    <!-- JavaScript para notificaciones y menú -->
     <script>
-        function showToast(message, type = 'info') {
-            const toast = document.getElementById('toast');
-            const messageEl = document.getElementById('toast-message');
-            messageEl.textContent = message;
-            toast.classList.remove('translate-y-20', 'opacity-0');
-            setTimeout(() => {
-                toast.classList.add('translate-y-20', 'opacity-0');
-            }, 3500);
-        }
-
         const menuBtn = document.getElementById('menu-btn');
         const mobileMenu = document.getElementById('mobile-menu');
         menuBtn.addEventListener('click', () => {
